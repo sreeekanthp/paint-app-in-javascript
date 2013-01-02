@@ -1,0 +1,309 @@
+<html>
+<head>
+<style type="text/css">
+body
+{
+	background-color:797977;
+}	
+
+</style>
+<div align="center">
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+
+<table>
+<tr>
+
+<canvas id="canvas" width="985" height="425" style="background-color:white;border: 5px solid  #666666"></canvas><br>
+<center>
+<button onclick= "line()">LINE</button>
+<button onclick= "rect()">RECTANGLE</button>
+<button onclick= "cir()">CIRCLE</button>
+<button onclick= "clr()">CLEAR</button>
+<button onclick= "erase()">ERASER</button>
+<button onclick= "pencil()">PENCIL</button>
+<button onclick= "fill()">FILL</button>
+
+<font style="bold">Thick</font>
+<select id="select1" onchange = "penwidth()"><option value="2">2px</option><option value="4">4px</option><option value="6">6px</option><option value="8">8px</option><option value="10">10px</option><option value="12">12px</option><option value="14">14px</option>
+</select>
+<center>
+<table>
+<tr>
+<td><button style ="height:20px;width:20px; background-color:F40505"onclick="setcolor('F40505');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:FE0202"onclick="setcolor('FE0202');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:red"onclick="setcolor('red');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:0DBD04"onclick="setcolor('0DBD04');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:076A02"onclick="setcolor('076A02');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:075903"onclick="setcolor('075903');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:064602"onclick="setcolor('064602');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:013638"onclick="setcolor('013638');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:0408FF"onclick="setcolor('0408FF');"></button></td>		
+<td><button style ="height:20px;width:20px; background-color:0609B5"onclick="setcolor('0609B5');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:02059A"onclick="setcolor('02059A');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:390134"onclick="setcolor('390134');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:4B0245"onclick="setcolor('4B0245');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:610159"onclick="setcolor('610159');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:C96902"onclick="setcolor('C96902');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:D66F02"onclick="setcolor('D66F02');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:DAC907"onclick="setcolor('DAC907');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:D7C504"onclick="setcolor('D7C504');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:FCFCF8"onclick="setcolor('FCFCF8');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:D8D8D5"onclick="setcolor('D8D8D5');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:C8C8C7"onclick="setcolor('C8C8C7');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:AFAFAE"onclick="setcolor('AFAFAE');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:999996"onclick="setcolor('999996');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:797977"onclick="setcolor('797977');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:3F3F3C"onclick="setcolor('3F3F3C');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:262626"onclick="setcolor('262626');"></button></td>
+<td><button style ="height:20px;width:20px; background-color:000000"onclick="setcolor('000000');"></button></td>
+</tr>
+</table>
+
+
+<input id="fnam"></input>
+<button onclick="sendstring()">save</button>
+</center>
+<a href='/'>New</a>
+</tr>
+<tr>
+<br><br><b>Scriblings</b>
+<p id="element">Scriblings</p>
+</tr>
+</table>
+</center>
+
+<script type="text/javascript">
+
+flag=0
+strokecolor = "black"
+function pencil(){
+        context.fillStyle="black"
+        context.strokeStyle="black"
+	document.documentElement.style.cursor ='url(http://cur.cursors-4u.net/others/oth-5/oth510.png),auto'
+	context.fillStyle="black"
+	canvas.onmousedown = function(e)
+                                {
+                                f=0
+				x7=e.clientX-canvas.getBoundingClientRect().left
+				y7=e.clientY-canvas.getBoundingClientRect().top
+				}
+	canvas.onmouseup = function(){f=1}
+	canvas.onmousemove= pencil1
+	}
+function pencil1(e){
+	if(f==0){
+		context.beginPath()
+		context.moveTo(x7,y7)
+		context.lineTo(e.clientX-canvas.getBoundingClientRect().left,e.clientY-canvas.getBoundingClientRect().top)
+		context.stroke()
+		context.closePath()
+		x7=e.clientX-canvas.getBoundingClientRect().left
+		y7=e.clientY-canvas.getBoundingClientRect().top
+	}	}
+function erase(l){
+	document.documentElement.style.cursor = 'url(http://cur.cursors-4u.net/cursors/cur-11/cur1020.ani),auto'
+	canvas.onmousedown = function(){flag=0}
+	canvas.onmouseup = function(){flag=1}
+	canvas.onmousemove= erase1
+	}
+function erase1(e){
+	if(flag==0){
+	context.clearRect(e.clientX-canvas.getBoundingClientRect().left,e.clientY-canvas.getBoundingClientRect().top,30,30)	
+	}}
+function penwidth(){
+	context.lineWidth=document.getElementById("select1").value
+	}
+
+function fill(){
+	flag = (flag+1)%2
+	}
+function setcolor(col){
+	context.fillStyle = col 
+	context.strokeStyle= col
+	strokecolor = col
+	}
+function line(){
+        context.strokeStyle="black"
+        context.fillStyle="black"
+	document.documentElement.style.cursor ='url(http://ani.cursors-4u.net/cursors/cur-11/cur1089.cur),auto'
+	canvas.onmousedown = line1
+	canvas.onmouseup = line2	
+	canvas.onmousemove = line3	
+	}
+
+function line1(e){
+	fline=0
+	img1 = context.getImageData(0,0,canvas.width,canvas.height)
+	x5=e.clientX-canvas.getBoundingClientRect().left
+	y5=e.clientY-canvas.getBoundingClientRect().top
+		}
+
+function line2(){
+	fline=1
+	objlin = {"Type":"Line","x1":x5,"y1":y5,"x2":x11,"y2":y11,"Fill":flag,"Color":strokecolor}
+        j.push(objlin)		
+        }
+function line3(e){
+	if(fline==0){
+	context.putImageData(img1,0,0)
+	context.beginPath()
+	context.moveTo(x5,y5)
+	x11=e.clientX-canvas.getBoundingClientRect().left
+	y11=e.clientY-canvas.getBoundingClientRect().top
+	context.lineTo(x11,y11)
+	context.stroke()
+	context.closePath()		
+	}
+	}
+
+function rect(){
+	
+	document.documentElement.style.cursor ='url(http://ani.cursors-4u.net/cursors/cur-11/cur1089.cur),auto' 
+	canvas.onmousedown = rec1
+	canvas.onmouseup = rec2	
+	canvas.onmousemove = rec3
+	}
+	
+function rec1(e){
+	frec=0
+	img = context.getImageData(0,0,canvas.width,canvas.height)
+	x=e.clientX-canvas.getBoundingClientRect().left
+	y=e.clientY-canvas.getBoundingClientRect().top
+	}
+function rec2(){
+	frec=1
+	objrec={"Type":"Rectangle","x1":x,"y1":y,"x2":x1,"y2":y1,"Width":width,"Height":height,"Fill":flag,"Color":strokecolor}
+        j.push(objrec)
+        }
+
+function rec3(e){
+	if (frec==0){
+	context.putImageData(img,0,0)	
+	x1=e.clientX-canvas.getBoundingClientRect().left
+	y1=e.clientY-canvas.getBoundingClientRect().top
+        width = x1-x
+        height = y1-y	
+        context.strokeRect(x,y,width,height)
+        if(flag==1){context.fillRect(x,y,x1-x,y1-y)}
+	}	
+	}
+function cir(){
+	document.documentElement.style.cursor ='url(http://ani.cursors-4u.net/cursors/cur-11/cur1089.cur),auto'
+	canvas.onmousedown = cir1
+	canvas.onmouseup = cir2
+	canvas.onmousemove = cir3	
+	}
+
+function cir1(e){
+	fcir=0
+	img =context.getImageData(0,0,canvas.width,canvas.height)
+	x2=e.clientX-canvas.getBoundingClientRect().left
+	y2=e.clientY-canvas.getBoundingClientRect().top
+	}
+
+function cir2(){
+	fcir=1
+        objcir= {"Type":"Circle","x1":x2,"y1":y2,"x2":x3,"y2":y3,"Fill":flag,"Color":strokecolor}
+        j.push(objcir)	
+        }
+
+function cir3(e){
+	if (fcir==0){
+	context.putImageData(img,0,0)
+	x3=e.clientX-canvas.getBoundingClientRect().left
+	y3=e.clientY-canvas.getBoundingClientRect().top
+	context.beginPath()
+	var a = Math.pow (x3-x2,2)
+	var b = Math.pow (y3-y2,2)
+	radius = Math.sqrt(a+b)
+	context.arc(x2,y2,radius,0,2*Math.PI, true)
+	context.stroke()
+	context.closePath()
+        if(flag==1){context.fill()}
+		}
+	}
+
+function clr(){
+	document.documentElement.style.cursor ='url(http://ani.cursors-4u.net/cursors/cur-11/cur1089.cur),auto'
+	context.clearRect(0,0,985,425) 	
+	}
+function json1(){
+        json2 = JSON.stringify(j)
+        alert(json2)        
+	}
+
+function sendstring(){
+
+         $.post("/",
+                {
+                image:JSON.stringify(j),
+                fnam:document.getElementById("fnam").value
+                },
+                function(data,status) {document.write(data)}
+                );
+}
+function scribling(){
+		for(i in j){
+			if(j[i]['Type']=='Line'){
+				context.beginPath()
+				x1=j[i]['x1']
+				y1=j[i]['y1']
+				x2=j[i]['x2']
+				y2=j[i]['y2']
+				context.moveTo(x1,y1)
+				context.lineTo(x2,y2)
+				context.strokeStyle=j[i]['Color']
+				context.stroke()
+				context.closePath()
+			}
+			if(j[i]['Type']=='Circle'){
+				context.beginPath()
+				x1=j[i]['x1']
+				y1=j[i]['y1']
+				x2=j[i]['x2']
+				y2=j[i]['y2']
+				var a = Math.pow (x2-x1,2)
+				var b = Math.pow (y2-y1,2)
+				radius = Math.sqrt(a+b)
+				context.arc(x1,y1,radius,0,2*Math.PI,true)
+				context.strokeStyle=j[i]['Color']
+				context.fillStyle=j[i]['Color']
+				if(j[i]['Fill']==1){
+					context.fill()
+				}
+				context.stroke()
+				context.closePath()
+			}
+			if(j[i]['Type']=='Rectangle'){
+				x1=j[i]['x1']
+				y1=j[i]['y1']
+				width=j[i]['Width']
+				height=j[i]['Height']
+				context.strokeStyle=j[i]['Color']
+				context.fillStyle=j[i]['Color']
+				context.strokeRect(x1,y1,width,height)
+				if(j[i]['Fill']==1){
+					context.fillRect(x1,y1,width,height)
+				}
+			}
+		}
+}
+
+name=""
+
+for(i in lis){
+	name+='<a href='+lis[i]+' id="link">'+lis[i]+'</a><br>'
+	document.getElementById("element").innerHTML=name}
+canvas = document.getElementById("canvas")
+context = canvas.getContext("2d")
+document.onselectstart=function(){return false}
+if(imagedata==""){
+	j=[]
+}else{
+	j=imagedata
+	scribling()
+}
+ 
+</script>
+
+
